@@ -1,10 +1,16 @@
 {
   "name": "gaming-tournament-portal",
   "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "devDependencies": {
     "concurrently": "^9.2.1"
   },
   "scripts": {
-    "dev": "concurrently -k -n API,WEB \"npm --prefix server run dev\" \"npm --prefix client run dev\""
+    "dev": "concurrently -k -n API,WEB \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "build": "npm --prefix client run build",
+    "vercel-build": "npm run build"
   }
 }

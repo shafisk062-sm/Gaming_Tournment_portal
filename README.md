@@ -36,3 +36,19 @@ Sample tournaments and demo accounts are inserted into MongoDB when the database
 - Player: `nova@nexusarena.gg` / `player123`
 
 Change demo credentials and `JWT_SECRET` before deploying this application.
+
+## Deploy to Vercel
+
+1. Push this project to GitHub.
+2. Import the repository in Vercel.
+3. Keep the project root as the repository root.
+4. Add these environment variables in Vercel:
+
+   ```env
+   MONGO_URI=your_MongoDB_Atlas_connection_string
+   JWT_SECRET=a-long-random-production-secret
+   ```
+
+5. Deploy. Vercel builds `client` and serves `server/server.js` through `api/index.js`.
+
+MongoDB Atlas must allow network access from `0.0.0.0/0` or Vercel's network, and the Atlas database user must have read/write access.

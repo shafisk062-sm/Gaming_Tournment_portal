@@ -294,6 +294,26 @@ async function seedData() {
   ]);
 }
 
+let databaseReady;
+
+async function ensureDatabase(req, res, next) {
+  try {
+    if (!databaseReady) {
+      databaseReady = (async () => {
+        await connectDatabase();
+        await seedData();
+      })();
+    }
+    await databaseReady;
+    next();
+  } catch (error) {
+    console.error('Database connection failed:', error);
+    res.status(503).json({ message: 'Database unavailable. Check MONGO_URI.' });
+  }
+}
+
+app.use('/api', ensureDatabase);
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'NEXUS ARENA API is running' });
 });
@@ -547,24 +567,26 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Internal server error', error: err.message });
 });
 
-(async () => {
-  try {
-    await connectDatabase();
-    await seedData();
+if (require.main === module) {
+  (async () => {
+    try {
+      await connectDatabase();
+      await seedData();
 
-    io.on('connection', (socket) => {
-      socket.on('join-room', (roomId) => {
-        socket.join(roomId);
+      io.on('connection', (socket) => {
+        socket.on('join-room', (roomId) => {
+          socket.join(roomId);
+        });
       });
-    });
 
-    server.listen(PORT, () => {
-      console.log(`NEXUS ARENA server running on http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.error('Failed to start NEXUS ARENA. Check MONGO_URI and ensure MongoDB is reachable.', error);
-    process.exit(1);
-  }
-})();
+      server.listen(PORT, () => {
+        console.log(`NEXUS ARENA server running on http://localhost:${PORT}`);
+      });
+    } catch (error) {
+      console.error('Failed to start NEXUS ARENA. Check MONGO_URI and ensure MongoDB is reachable.', error);
+      process.exit(1);
+    }
+  })();
+}
 
-
+module.exports = app;
