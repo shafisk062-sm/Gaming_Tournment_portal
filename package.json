@@ -1,0 +1,7 @@
+{
+  "name": "gaming-tournament-portal",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix client run dev"
+  }
+}

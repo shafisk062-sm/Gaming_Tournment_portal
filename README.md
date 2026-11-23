@@ -18,11 +18,9 @@
    npm run dev
    ```
 
-4. In a second terminal, start the frontend:
+4. In a second terminal, start the frontend from the project root:
 
    ```powershell
-   cd client
-   npm install
    npm run dev
    ```
 
