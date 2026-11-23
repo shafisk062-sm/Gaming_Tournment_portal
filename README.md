@@ -10,21 +10,24 @@
    ```
 
    For Atlas, use the URI from your Atlas deployment and replace its username, password, and database name. Keep `.env` private.
-3. Start the API:
+3. Install dependencies for the API and frontend:
 
    ```powershell
    cd server
    npm install
-   npm run dev
+   cd ..\client
+   npm install
+   cd ..
+   npm install
    ```
 
-4. In a second terminal, start the frontend from the project root:
+4. Start both the API and frontend from the project root:
 
    ```powershell
    npm run dev
    ```
 
-5. Open `http://localhost:5173`. The API health check is at `http://localhost:5000/api/health`.
+5. Open the frontend URL printed by Vite (normally `http://localhost:5173`). The API health check is at `http://localhost:5000/api/health`. Keep the terminal running while using the app.
 
 Sample tournaments and demo accounts are inserted into MongoDB when the database is empty. Demo accounts:
 

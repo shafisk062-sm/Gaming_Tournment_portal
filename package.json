@@ -1,7 +1,10 @@
 {
   "name": "gaming-tournament-portal",
   "private": true,
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
   "scripts": {
-    "dev": "npm --prefix client run dev"
+    "dev": "concurrently -k -n API,WEB \"npm --prefix server run dev\" \"npm --prefix client run dev\""
   }
 }
